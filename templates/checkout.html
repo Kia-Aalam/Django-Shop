@@ -7,8 +7,7 @@
         <div class="row px-xl-5">
             <div class="col-12">
                 <nav class="breadcrumb bg-light mb-30">
-                    <a class="breadcrumb-item text-dark" href="#">Home</a>
-                    <a class="breadcrumb-item text-dark" href="#">Shop</a>
+                    <a class="breadcrumb-item text-dark" href="{% url 'home' %}">Home</a>
                     <span class="breadcrumb-item active">Checkout</span>
                 </nav>
             </div>
@@ -37,7 +36,7 @@
                             <input class="form-control" type="text" placeholder="example@email.com">
                         </div>
                         <div class="col-md-6 form-group">
-                            <label>Mobile No</label>
+                            <label>Mobile Number</label>
                             <input class="form-control" type="text" placeholder="+123 456 789">
                         </div>
                         <div class="col-md-6 form-group">
@@ -45,16 +44,11 @@
                             <input class="form-control" type="text" placeholder="123 Street">
                         </div>
                         <div class="col-md-6 form-group">
-                            <label>Address Line 2</label>
-                            <input class="form-control" type="text" placeholder="123 Street">
-                        </div>
-                        <div class="col-md-6 form-group">
                             <label>Country</label>
                             <select class="custom-select">
                                 <option selected>United States</option>
+                                <option>Iran</option>
                                 <option>Afghanistan</option>
-                                <option>Albania</option>
-                                <option>Algeria</option>
                             </select>
                         </div>
                         <div class="col-md-6 form-group">
@@ -68,6 +62,9 @@
                         <div class="col-md-6 form-group">
                             <label>ZIP Code</label>
                             <input class="form-control" type="text" placeholder="123">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Save</button>
                         </div>
                     </div>
                 </div>
