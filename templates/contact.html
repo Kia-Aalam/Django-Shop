@@ -23,30 +23,32 @@
             <div class=" mb-5 contact-us">
                 <div class="contact-form bg-light p-30">
                     <div id="success"></div>
-                    <form name="sentMessage" id="contactForm" novalidate="novalidate">
+
+                    <form method="post" action="{% url 'contact' %}">
+                        {% csrf_token %}
+                        
+                        {% if request.user.is_authenticated %}
+                            <div class="control-group">
+                                <input type="email" name="email" class="form-control" 
+                                value="{{ request.user.email }}" readonly>
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        {% else %}
+                            <div class="control-group">
+                                {{ form.email }}
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        {% endif %}
                         <div class="control-group">
-                            <input type="text" class="form-control" id="name" placeholder="Your Name"
-                                required="required" data-validation-required-message="Please enter your name" />
+                            {{ form.subject }}
                             <p class="help-block text-danger"></p>
                         </div>
                         <div class="control-group">
-                            <input type="email" class="form-control" id="email" placeholder="Your Email"
-                                required="required" data-validation-required-message="Please enter your email" />
-                            <p class="help-block text-danger"></p>
-                        </div>
-                        <div class="control-group">
-                            <input type="text" class="form-control" id="subject" placeholder="Subject"
-                                required="required" data-validation-required-message="Please enter a subject" />
-                            <p class="help-block text-danger"></p>
-                        </div>
-                        <div class="control-group">
-                            <textarea class="form-control" rows="8" id="message" placeholder="Message"
-                                required="required"
-                                data-validation-required-message="Please enter your message"></textarea>
+                            {{ form.message }}
                             <p class="help-block text-danger"></p>
                         </div>
                         <div>
-                            <button class="btn btn-primary py-2 px-4" type="submit" id="sendMessageButton">Send
+                            <button class="btn btn-primary py-2 px-4" type="submit">Send
                                 Message</button>
                         </div>
                     </form>
