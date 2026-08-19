@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 # index page
-class index(TemplateView):
+class IndexView(TemplateView):
     template_name = "index.html"
 
 # contact page
@@ -21,3 +21,19 @@ class ContactView(FormView):
             message=form.cleaned_data['message']
         )   
         return super().form_valid(form)
+    
+# detail page
+class DetailView(TemplateView):
+    template_name = "detail.html"
+    
+# shop page
+class ShopView(TemplateView):
+    template_name = "shop.html"
+    
+# checkout page
+class CheckoutView(TemplateView):
+    template_name = "checkout.html"
+    
+# cart page
+class CartView(TemplateView):
+    template_name = "cart.html"
