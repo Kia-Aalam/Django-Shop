@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from home.forms import ContactForm
 from home.models import ContactModel
+from django.urls import reverse_lazy
+# class base view
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
@@ -12,7 +14,7 @@ class IndexView(TemplateView):
 class ContactView(FormView):
     template_name = "contact.html"
     form_class = ContactForm
-    success_url = "/"
+    success_url = reverse_lazy("home")
 
     def form_valid(self, form):
         ContactModel.objects.create(
