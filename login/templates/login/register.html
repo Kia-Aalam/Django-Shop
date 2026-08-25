@@ -8,7 +8,7 @@
             <div class="col-12">
                 <nav class="breadcrumb bg-light mb-30">
                     <a class="breadcrumb-item text-dark" href="{% url 'home' %}">Home</a>
-                    <span class="breadcrumb-item active">Signin</span>
+                    <span class="breadcrumb-item active">Register</span>
                 </nav>
             </div>
         </div>
@@ -16,31 +16,23 @@
     <!-- Breadcrumb End -->
 
 
-    <!-- Signin Start -->
+    <!-- Register Start -->
     <div class="container-fluid">
-        <h2 class="section-title position-relative text-uppercase text-center mx-xl-5 mb-4"><span class="bg-secondary pr-3">Signin</span></h2>
+        <h2 class="section-title position-relative text-uppercase text-center mx-xl-5 mb-4"><span class="bg-secondary pr-3">Register</span></h2>
         <div class=" px-xl-5">
             <div class=" mb-5 contact-us">
                 <div class="contact-form bg-light p-30">
                     <div id="success"></div>
 
-                    <form method="post" action="{% url 'signin' %}">
+                    <form method="post">
                         {% csrf_token %}
-
+                        
                         <div class="control-group">
-                            {{ form.email }}
-                            <p class="help-block text-danger"></p>
-                        </div>
-                        <div class="control-group">
-                            {{ form.password }}
-                            <p class="help-block text-danger"></p>
-                        </div>
-                        <div class="control-group">
-                            <a href="{% url 'register' %}">Send Code ?</a>
+                            {{ form.as_p }}
                             <p class="help-block text-danger"></p>
                         </div>
                         <div>
-                            <button class="btn btn-primary py-2 px-4" type="submit">Signin</button>
+                            <button class="btn btn-primary py-2 px-4" type="submit">Send</button>
                         </div>
                     </form>
                 </div>
@@ -48,5 +40,5 @@
            
         </div>
     </div>
-    <!-- Signin End -->
+    <!-- Register End -->
 {% endblock %}

@@ -8,7 +8,8 @@
             <div class="col-12">
                 <nav class="breadcrumb bg-light mb-30">
                     <a class="breadcrumb-item text-dark" href="{% url 'home' %}">Home</a>
-                    <span class="breadcrumb-item active">Signin</span>
+                    <a class="breadcrumb-item text-dark" href="{% url 'register' %}">Register</a>
+                    <span class="breadcrumb-item active">SendCode</span>
                 </nav>
             </div>
         </div>
@@ -16,37 +17,32 @@
     <!-- Breadcrumb End -->
 
 
-    <!-- Signin Start -->
+    <!-- SendCode Start -->
     <div class="container-fluid">
-        <h2 class="section-title position-relative text-uppercase text-center mx-xl-5 mb-4"><span class="bg-secondary pr-3">Signin</span></h2>
+        <h2 class="section-title position-relative text-uppercase text-center mx-xl-5 mb-4"><span class="bg-secondary pr-3">Send Code</span></h2>
         <div class=" px-xl-5">
             <div class=" mb-5 contact-us">
                 <div class="contact-form bg-light p-30">
                     <div id="success"></div>
 
-                    <form method="post" action="{% url 'signin' %}">
+                    <form method="post">
                         {% csrf_token %}
 
                         <div class="control-group">
-                            {{ form.email }}
+                            {{ form.as_p }}
                             <p class="help-block text-danger"></p>
                         </div>
-                        <div class="control-group">
-                            {{ form.password }}
+                        <a href="{% url 'send_again_otp' %}?email={{ request.GET.email }}" class="control-group">
+                            send code again
                             <p class="help-block text-danger"></p>
-                        </div>
-                        <div class="control-group">
-                            <a href="{% url 'register' %}">Send Code ?</a>
-                            <p class="help-block text-danger"></p>
-                        </div>
+                        </a>
                         <div>
-                            <button class="btn btn-primary py-2 px-4" type="submit">Signin</button>
+                            <button class="btn btn-primary py-2 px-4" type="submit">Register</button>
                         </div>
                     </form>
                 </div>
             </div>
-           
         </div>
     </div>
-    <!-- Signin End -->
+    <!-- SendCode End -->
 {% endblock %}
