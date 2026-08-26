@@ -12,6 +12,7 @@ from django.views import View
 from random import randint
 from pyexpat.errors import messages
 from django_ratelimit.decorators import ratelimit
+from django.utils.decorators import method_decorator
 
 # signin page
 class SigninView(FormView):
@@ -43,7 +44,6 @@ class SignupView(FormView):
         return redirect('home')
     
 # register page
-from django.utils.decorators import method_decorator
 class RegisterView(View):
     
     @method_decorator(ratelimit(key='post:email', rate='2/5m', block=True, method='POST'))
@@ -59,7 +59,6 @@ class RegisterView(View):
         form = RegisterForm(request.POST)
         if form.is_valid():
             randcode = randint(1000, 9999)
-            #SMS.verification()
             send_otp_email(form.cleaned_data['email'], randcode)
             Otp.objects.create(email=form.cleaned_data['email'], code=randcode)
             print(randcode)
