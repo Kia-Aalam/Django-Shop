@@ -144,3 +144,22 @@ MAILERS = {
 }
 
 AUTH_USER_MODEL = "account.User"
+
+# Email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'your-email@gmail.com'  # ایمیل خودت
+EMAIL_HOST_PASSWORD = 'xxxx xxxx xxxx xxxx'  # رمز برنامه (App Password)
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# Ratelimit
+RATELIMIT_VIEW = 'myapp.views.ratelimit_handler' 
+# Caches
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'ratelimit-cache',
+    }
+}

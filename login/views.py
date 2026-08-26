@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, get_user_model
 from django.urls import reverse_lazy, reverse
 from login.forms import SigninForm, SignupForm, OtpForm, RegisterForm
 from login.models import Otp
+from login.utils import send_otp_email
 # class base view
 from django.views.generic.edit import FormView
 from django.contrib.auth.views import LogoutView
@@ -10,6 +11,7 @@ from django.views import View
 
 from random import randint
 from pyexpat.errors import messages
+from django_ratelimit.decorators import ratelimit
 
 # signin page
 class SigninView(FormView):
@@ -41,15 +43,19 @@ class SignupView(FormView):
         return redirect('home')
     
 # register page
+@ratelimit(key='post:email', rate='2/5m', block=True, method='POST')
+@ratelimit(key='post:email', rate='1/10m', block=True, method='POST')
 class RegisterView(View):
     def get(self, request):
         form = RegisterForm()
         return render(request, "login/register.html", {'form':form})
+    
     def post(self, request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             randcode = randint(1000, 9999)
             #SMS.verification()
+            send_otp_email(form.cleaned_data['email'], randcode)
             Otp.objects.create(email=form.cleaned_data['email'], code=randcode)
             print(randcode)
             return redirect(reverse('otp') + f'?email={form.cleaned_data['email']}')
@@ -91,6 +97,7 @@ def send_again_otp(request):
     email = request.GET.get('email')
     if email:
         randcode = randint(1000, 9999)
+        send_otp_email(email, randcode)
         Otp.objects.create(email=email, code=randcode)
         print(randcode)
         return redirect(reverse('otp') + f'?email={email}')
