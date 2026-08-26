@@ -43,9 +43,14 @@ class SignupView(FormView):
         return redirect('home')
     
 # register page
-@ratelimit(key='post:email', rate='2/5m', block=True, method='POST')
-@ratelimit(key='post:email', rate='1/10m', block=True, method='POST')
+from django.utils.decorators import method_decorator
 class RegisterView(View):
+    
+    @method_decorator(ratelimit(key='post:email', rate='2/5m', block=True, method='POST'))
+    @method_decorator(ratelimit(key='post:email', rate='1/10m', block=True, method='POST'))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+    
     def get(self, request):
         form = RegisterForm()
         return render(request, "login/register.html", {'form':form})

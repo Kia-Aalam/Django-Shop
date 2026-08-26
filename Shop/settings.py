@@ -134,15 +134,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 AUTH_USER_MODEL = "login.User_Login"'''
 
 
-# Email
-# https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
-
-MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
-    },
-}
-
 AUTH_USER_MODEL = "account.User"
 
 # Email
@@ -150,8 +141,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'your-email@gmail.com'  # ایمیل خودت
-EMAIL_HOST_PASSWORD = 'xxxx xxxx xxxx xxxx'  # رمز برنامه (App Password)
+EMAIL_HOST_USER = 'your_email@gmail.com'  # your email 
+EMAIL_HOST_PASSWORD = 'xxxx xxxx xxxx xxxx'  # App Password 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # Ratelimit
