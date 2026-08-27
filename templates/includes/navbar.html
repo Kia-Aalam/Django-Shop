@@ -110,8 +110,8 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <a href="{% url 'home' %}" class=" {% if request.path == '/' %} active {% endif %} nav-item nav-link ">Home</a>
-                            <a href="{% url 'shop' %}" class=" {% if request.path == '/shop/' %} active {% endif %} nav-item nav-link">Shop</a>
-                            <a href="{% url 'detail' %}" class=" {% if request.path == '/detail/' %} active {% endif %} nav-item nav-link">Shop Detail</a>
+                            <a href="{% url 'shop' %}" class=" {% if request.path == '/product/shop/' %} active {% endif %} nav-item nav-link">Shop</a>
+                            <a href="{% url 'detail' %}" class=" {% if request.path == '/product/detail/' %} active {% endif %} nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class=" {% if request.path == '/cart/' %} active {% elif request.path == '/checkout/' %} active {% endif %} nav-link dropdown-toggle" data-toggle="dropdown">Pages <i class="fa fa-angle-down mt-1"></i></a>
                                 <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">

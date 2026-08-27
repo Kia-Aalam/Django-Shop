@@ -30,14 +30,6 @@ class ContactView(FormView):
         )   
         return super().form_valid(form)
     
-# detail page
-class DetailView(TemplateView):
-    template_name = "detail.html"
-    
-# shop page
-class ShopView(TemplateView):
-    template_name = "shop.html"
-    
 # checkout page
 class CheckoutView(TemplateView):
     template_name = "checkout.html"
