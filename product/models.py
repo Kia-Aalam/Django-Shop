@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.utils.text import slugify
 
 class Type(models.Model):
     title = models.CharField(max_length=250)
@@ -28,9 +29,17 @@ class Product(models.Model):
     size = models.ManyToManyField(Size, related_name='products')
     color = models.ManyToManyField(Color, related_name='products')
     number = models.IntegerField()
-    slug = models.SlugField(unique=True, max_length=250)
-    def get_absolute_url(self):
-        return reverse('product:detail', kwargs={'slug': self.slug})
+    slug = models.SlugField(default="", null=False, unique=True)
+    def save(self, *args, **kwargs):
+        if not self.slug: 
+            base_slug = slugify(self.title)
+            slug = base_slug
+            counter = 1
+            while Product.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
     
     def __str__(self):
         return f'{self.type} / {self.title}'

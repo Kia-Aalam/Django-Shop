@@ -8,7 +8,6 @@
             <div class="col-12">
                 <nav class="breadcrumb bg-light mb-30">
                     <a class="breadcrumb-item text-dark" href="{% url 'home' %}">Home</a>
-                    <a class="breadcrumb-item text-dark" href="{% url 'shop' %}">Shop</a>
                     <span class="breadcrumb-item active">Shop List</span>
                 </nav>
             </div>
@@ -182,7 +181,7 @@
                                     </div>
                                 </div>
                                 <div class="text-center py-4">
-                                    <a class="h6 text-decoration-none text-truncate" href="{% url 'detail' product.slug %}">{{ product.title }}</a><!-- ! problem -->
+                                    <a class="h6 text-decoration-none text-truncate" href="{% url 'detail' product.slug %}">{{ product.title }}</a>
                                     <div class="d-flex align-items-center justify-content-center mt-2">
                                         <h5>${{ product.price|floatformat:2 }}</h5>
                                         <!-- <h6 class="text-muted ml-2"><del>${{ product.original_price|floatformat:2 }}</del></h6> -->

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from home.forms import ContactForm
 from home.models import ContactModel
+from product.models import Product
 from django.urls import reverse_lazy
 # class base view
 from django.views.generic import TemplateView
@@ -9,12 +10,6 @@ from django.views.generic.edit import FormView
 # index page
 class IndexView(TemplateView):
     template_name = "index.html"
-    
-    '''def get(self, request):
-        # Search
-        q = request.GET.get('q')
-        if q :
-            product = Product.objects.filter(title__icontains=q)'''
 
 # contact page
 class ContactView(FormView):

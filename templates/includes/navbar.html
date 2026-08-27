@@ -48,7 +48,7 @@
             </div>
             <div class="col-lg-4 col-6 text-left">
                 <!-- Search Box --> 
-                <form id="search_form" name="gs" method="GET" action="{% url 'shop' %}">
+                <form id="search_form" name="gs" method="GET" action="{% url 'search' %}">
                     <div class="input-group">
                         <input type="text" name="q" class="form-control" placeholder="Search for products" autocomplete="on" value="{{request.GET.q}}">
                         <div class="input-group-append">
@@ -111,7 +111,6 @@
                         <div class="navbar-nav mr-auto py-0">
                             <a href="{% url 'home' %}" class=" {% if request.path == '/' %} active {% endif %} nav-item nav-link ">Home</a>
                             <a href="{% url 'shop' %}" class=" {% if request.path == '/product/shop/' %} active {% endif %} nav-item nav-link">Shop</a>
-                            <a href="{{ product.get_absolute_url }}" class=" {% if request.path == '/product/detail/' %} active {% endif %} nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class=" {% if request.path == '/cart/' %} active {% elif request.path == '/checkout/' %} active {% endif %} nav-link dropdown-toggle" data-toggle="dropdown">Pages <i class="fa fa-angle-down mt-1"></i></a>
                                 <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
