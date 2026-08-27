@@ -26,7 +26,7 @@ class Product(models.Model):
     title = models.CharField(max_length=250)
     price = models.FloatField()
     description = models.TextField()
-    size = models.ManyToManyField(Size, related_name='products')
+    size = models.ManyToManyField(Size, related_name='products', null=True, blank=True)
     color = models.ManyToManyField(Color, related_name='products')
     number = models.IntegerField()
     slug = models.SlugField(default="", null=False, unique=True)
