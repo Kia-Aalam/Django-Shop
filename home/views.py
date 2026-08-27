@@ -9,6 +9,12 @@ from django.views.generic.edit import FormView
 # index page
 class IndexView(TemplateView):
     template_name = "index.html"
+    
+    '''def get(self, request):
+        # Search
+        q = request.GET.get('q')
+        if q :
+            product = Product.objects.filter(title__icontains=q)'''
 
 # contact page
 class ContactView(FormView):

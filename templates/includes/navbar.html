@@ -47,9 +47,10 @@
                 </a>
             </div>
             <div class="col-lg-4 col-6 text-left">
-                <form action=""> <!-- Search Box -->
+                <!-- Search Box --> 
+                <form id="search_form" name="gs" method="GET" action="{% url 'shop' %}">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for products">
+                        <input type="text" name="q" class="form-control" placeholder="Search for products" autocomplete="on" value="{{request.GET.q}}">
                         <div class="input-group-append">
                             <span class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
