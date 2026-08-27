@@ -4,12 +4,14 @@ from home.models import ContactModel
 from product.models import Product
 from django.urls import reverse_lazy
 # class base view
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import FormView
 
 # index page
-class IndexView(TemplateView):
+class IndexView(ListView):
     template_name = "index.html"
+    model = Product
+    context_object_name = "products"
 
 # contact page
 class ContactView(FormView):
