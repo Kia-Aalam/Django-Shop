@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 class Type(models.Model):
     title = models.CharField(max_length=250)
@@ -20,13 +21,16 @@ class Color(models.Model):
         
 class Product(models.Model):
     type = models.ManyToManyField(Type, related_name='products')
-    image = models.ImageField(upload_to='product/static/img')
+    image = models.ImageField(upload_to='product')
     title = models.CharField(max_length=250)
     price = models.FloatField()
     description = models.TextField()
     size = models.ManyToManyField(Size, related_name='products')
     color = models.ManyToManyField(Color, related_name='products')
     number = models.IntegerField()
+    slug = models.SlugField(unique=True, max_length=250)
+    def get_absolute_url(self):
+        return reverse('product:detail', kwargs={'slug': self.slug})
     
     def __str__(self):
         return f'{self.type} / {self.title}'

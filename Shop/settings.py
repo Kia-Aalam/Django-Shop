@@ -128,12 +128,9 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
-'''# Media
+# Media
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media' '''
-
-'''# User Login
-AUTH_USER_MODEL = "login.User_Login"'''
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 AUTH_USER_MODEL = "account.User"
