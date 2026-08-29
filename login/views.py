@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, get_user_model
 from django.urls import reverse_lazy, reverse
-from login.forms import SigninForm, SignupForm, OtpForm, RegisterForm
+from login.forms import SigninForm, SignupForm, OtpForm, RegisterForm, CheckoutForm
 from login.models import Otp
 from login.utils import send_otp_email
 # class base view
@@ -108,6 +108,18 @@ def send_again_otp(request):
     else:
         return redirect('register')
 
+# checkout page
+class CheckoutView(View):
+    def get(self, request):
+        form = CheckoutForm()
+        return render(request, 'login/checkout.html', {'form':form})
+    
+    def post(self, request):
+        form = CheckoutForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return render(request, 'login/checkout.html', {'form':form}) 
+    
 # signout
 class SignoutView(LogoutView):
     next_page = "/"

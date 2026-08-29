@@ -8,4 +8,5 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('otp/', OtpView.as_view(), name='otp'),
     path('send-again-otp/', send_again_otp, name='send_again_otp'),
+    path('checkout/', CheckoutView.as_view(), name='checkout'),
 ]
