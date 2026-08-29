@@ -1,5 +1,7 @@
 from django import forms
 
+from login.models import CheckoutModel
+
 # signin
 class SigninForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Enter your Email'}))
@@ -32,3 +34,9 @@ class RegisterForm(forms.Form):
 # otp
 class OtpForm(forms.Form):
     code = forms.CharField(max_length=4, widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': 'Enter Code'}))
+    
+# checkout
+class CheckoutForm(forms.ModelForm):
+    class Meta:
+        models = CheckoutModel
+        fields = "__all__"
