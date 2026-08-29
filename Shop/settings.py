@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'login.apps.LoginConfig',
     'product.apps.ProductConfig',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
