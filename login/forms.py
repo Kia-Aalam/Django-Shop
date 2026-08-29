@@ -36,7 +36,7 @@ class OtpForm(forms.Form):
     code = forms.CharField(max_length=4, widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': 'Enter Code'}))
     
 # checkout
-class CheckoutForm(forms.ModelForm):
+class CheckoutForm(forms.Form):
     class Meta:
         models = CheckoutModel
         fields = "__all__"

@@ -1,6 +1,6 @@
 from django.urls import path
 #from . import views
-from home.views import IndexView, ContactView, CheckoutView, CartView
+from home.views import IndexView, ContactView, CartView
 
 urlpatterns = [
     path('', IndexView.as_view(), name='home'), 
