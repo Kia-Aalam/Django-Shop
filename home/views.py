@@ -27,10 +27,6 @@ class ContactView(FormView):
         )   
         return super().form_valid(form)
     
-# checkout page
-class CheckoutView(TemplateView):
-    template_name = "checkout.html"
-    
 # cart page
 class CartView(TemplateView):
     template_name = "cart.html"
