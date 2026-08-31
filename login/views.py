@@ -115,10 +115,17 @@ class CheckoutView(View):
         return render(request, 'login/checkout.html', {'form':form})
     
     def post(self, request):
+        if not request.user.is_authenticated:
+            return redirect('signin')
+            
         form = CheckoutForm(request.POST)
         if form.is_valid():
-            form.save()
-        return render(request, 'login/checkout.html', {'form':form}) 
+            checkout = form.save(commit=False)
+            checkout.user = request.user 
+            checkout.save()
+            return redirect('home') 
+        
+        return render(request, 'login/checkout.html', {'form': form})
     
 # signout
 class SignoutView(LogoutView):

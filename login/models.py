@@ -27,7 +27,7 @@ class CheckoutModel(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     phone = models.CharField(max_length=20)
-    address = models.TextField()
+    address = models.CharField(max_length=300)
     city = models.CharField(max_length=100)
     post_code = models.CharField(max_length=20)
     
