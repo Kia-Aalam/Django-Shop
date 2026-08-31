@@ -28,7 +28,7 @@ class Product(models.Model):
     description = models.TextField()
     size = models.ManyToManyField(Size, related_name='products', null=True, blank=True)
     color = models.ManyToManyField(Color, related_name='products')
-    number = models.IntegerField()
+    quantity = models.IntegerField()
     slug = models.SlugField(default="", null=False, unique=True)
     def save(self, *args, **kwargs):
         if not self.slug: 
