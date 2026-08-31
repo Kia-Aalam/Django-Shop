@@ -39,4 +39,4 @@ class OtpForm(forms.Form):
 class CheckoutForm(forms.ModelForm):
     class Meta:
         model = CheckoutModel
-        fields = "__all__"
+        fields = ['first_name', 'last_name', 'phone', 'address', 'city', 'post_code']

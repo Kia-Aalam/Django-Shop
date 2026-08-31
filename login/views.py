@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, get_user_model
 from django.urls import reverse_lazy, reverse
 from login.forms import SigninForm, SignupForm, OtpForm, RegisterForm, CheckoutForm
-from login.models import Otp
+from login.models import CheckoutModel, Otp
 from login.utils import send_otp_email
 # class base view
 from django.views.generic.edit import FormView
@@ -111,13 +111,26 @@ def send_again_otp(request):
 # checkout page
 class CheckoutView(View):
     def get(self, request):
-        form = CheckoutForm()
-        return render(request, 'login/checkout.html', {'form':form})
+        initial_data = {}
+        if request.user.is_authenticated:
+            last_checkout = CheckoutModel.objects.filter(user=request.user).first()
+            if last_checkout:
+                initial_data = {
+                    'first_name': last_checkout.first_name,
+                    'last_name': last_checkout.last_name,
+                    'phone': last_checkout.phone,
+                    'address': last_checkout.address,
+                    'city': last_checkout.city,
+                    'post_code': last_checkout.post_code,
+                }
+        
+        form = CheckoutForm(initial=initial_data)
+        return render(request, 'login/checkout.html', {'form': form})
     
     def post(self, request):
         if not request.user.is_authenticated:
             return redirect('signin')
-            
+
         form = CheckoutForm(request.POST)
         if form.is_valid():
             checkout = form.save(commit=False)
