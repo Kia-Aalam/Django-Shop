@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'login.apps.LoginConfig',
     'product.apps.ProductConfig',
     'widget_tweaks',
+    'cart.apps.CartConfig',
 ]
 
 MIDDLEWARE = [
