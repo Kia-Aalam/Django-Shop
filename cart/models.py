@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from product.models import Product
+from product.models import Product, Size, Color
+
 
 User = get_user_model()
 
@@ -23,8 +24,8 @@ class Cart(models.Model):
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    size = models.CharField(max_length=10)
-    color = models.CharField(max_length=20)
+    size = models.ForeignKey(Size, on_delete=models.CASCADE, null=True, blank=True)  
+    color = models.ForeignKey(Color, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2)
 

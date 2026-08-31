@@ -26,7 +26,3 @@ class ContactView(FormView):
             message=form.cleaned_data['message']
         )   
         return super().form_valid(form)
-    
-# cart page
-class CartView(TemplateView):
-    template_name = "cart.html"

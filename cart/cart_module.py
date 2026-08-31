@@ -11,7 +11,7 @@ class CartManager:
         self.user = request.user if request.user.is_authenticated else None
         
         if self.user:
-            self.cart, created = Cart.objects.get_or_create(user=self.user, is_active=True)
+            self.cart, created = Cart.objects.get_or_create(user=self.user)
         else:
             self.cart = self._get_or_create_session_cart()
 
@@ -19,11 +19,11 @@ class CartManager:
         cart_id = self.session.get('cart_id')
         if cart_id:
             try:
-                return Cart.objects.get(id=cart_id, is_active=True, user__isnull=True)
+                return Cart.objects.get(id=cart_id, user__isnull=True)
             except Cart.DoesNotExist:
                 pass
         
-        cart = Cart.objects.create(user=None, is_active=True)
+        cart = Cart.objects.create(user=None)
         self.session['cart_id'] = cart.id
         return cart
 
