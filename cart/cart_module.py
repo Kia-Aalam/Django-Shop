@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 from .models import Cart, CartItem
-from product.models import Product
+from product.models import Product, Size, Color 
 from django.utils import timezone
 
 
@@ -27,9 +27,17 @@ class CartManager:
         self.session['cart_id'] = cart.id
         return cart
 
-    def add(self, product_id, size, color, quantity):
+    def add(self, product_id, size_id=None, color_id=None, quantity=1):
         product = get_object_or_404(Product, id=product_id)
         price = product.price  
+        
+        size = None
+        color = None
+    
+        if size_id:
+            size = get_object_or_404(Size, id=size_id)  
+        if color_id:
+            color = get_object_or_404(Color, id=color_id) 
         
         cart_item, created = CartItem.objects.get_or_create(
             cart=self.cart,

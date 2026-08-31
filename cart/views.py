@@ -25,16 +25,16 @@ class CartDetailView(View):
 class CartAddView(View):
     def post(self, request):
         product_id = request.POST.get('product_id')
-        size = request.POST.get('size')
-        color = request.POST.get('color')
+        size_id = request.POST.get('size')
+        color_id = request.POST.get('color') 
         quantity = int(request.POST.get('quantity', 1))
         
-        if not all([product_id, size, color]):
+        if not all([product_id, size_id, color_id]):
             messages.error(request, 'Please fill in all the fields')
             return redirect(request.META.get('HTTP_REFERER', 'product_list'))
         
         cart_manager = CartManager(request)
-        cart_manager.add(product_id, size, color, quantity)
+        cart_manager.add(product_id, size_id, color_id, quantity)
         
         messages.success(request, 'Product added to shopping cart')
         
