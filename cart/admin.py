@@ -5,7 +5,7 @@ class CartItemInline(admin.TabularInline):
     model = CartItem
     extra = 0
     readonly_fields = ['get_total_price']
-    fields = ['product', 'size', 'color', 'quantity', 'price', 'get_total_price']
+    fields = ['product', 'size', 'color', 'quantity', 'price', 'get_total_price', 'is_paid']
 
     def get_total_price(self, obj):
         if obj and obj.price is not None:
@@ -16,8 +16,9 @@ class CartItemInline(admin.TabularInline):
 
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'created_at', 'updated_at', 'get_total_price', 'get_total_items', 'is_paid']
-    list_filter = ['is_paid', 'created_at']
+    list_display = ['id', 'user', 'created_at', 'updated_at', 'get_total_price', 'get_total_items']
+    list_display_links = ['user']
+    list_filter = ['created_at']
     search_fields = ['user__email']
     readonly_fields = ['created_at', 'updated_at']
     inlines = [CartItemInline]
@@ -34,8 +35,9 @@ class CartAdmin(admin.ModelAdmin):
 
 @admin.register(CartItem)
 class CartItemAdmin(admin.ModelAdmin):
-    list_display = ['id', 'cart', 'product', 'size', 'color', 'quantity', 'price', 'get_total_price']
-    list_filter = ['cart__user', 'size', 'color']
+    list_display = ['id', 'cart', 'product', 'size', 'color', 'quantity', 'price', 'get_total_price', 'is_paid']
+    list_display_links = ['cart'] 
+    list_filter = ['cart__user', 'size', 'color', 'is_paid']
     search_fields = ['product__title', 'cart__user__email']
     
     def get_total_price(self, obj):

@@ -9,7 +9,6 @@ class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='carts')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    is_paid = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Cart {self.id} - {self.user.email}"
@@ -28,6 +27,8 @@ class CartItem(models.Model):
     color = models.ForeignKey(Color, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    
+    is_paid = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ['cart', 'product', 'size', 'color']
