@@ -27,13 +27,21 @@ class CartItem(models.Model):
     size = models.ForeignKey(Size, on_delete=models.CASCADE, null=True, blank=True)  
     color = models.ForeignKey(Color, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     class Meta:
         unique_together = ['cart', 'product', 'size', 'color']
 
     def __str__(self):
         return f"{self.product.title} - {self.size} - {self.color} - {self.quantity}"
+    
+    def save(self, *args, **kwargs):
+        if not self.price or self.price == 0:
+            if self.product and hasattr(self.product, 'price'):
+                self.price = self.product.price
+        super().save(*args, **kwargs)
 
     def get_total_price(self):
+        if self.price is None:
+            return 0
         return self.price * self.quantity

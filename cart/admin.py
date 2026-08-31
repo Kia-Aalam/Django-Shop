@@ -8,7 +8,9 @@ class CartItemInline(admin.TabularInline):
     fields = ['product', 'size', 'color', 'quantity', 'price', 'get_total_price']
 
     def get_total_price(self, obj):
-        return obj.get_total_price()
+        if obj and obj.price is not None:
+            return f"{obj.get_total_price():,} $"
+        return '0 $'
     get_total_price.short_description = 'Total Price'
 
 
@@ -21,11 +23,12 @@ class CartAdmin(admin.ModelAdmin):
     inlines = [CartItemInline]
     
     def get_total_price(self, obj):
-        return obj.get_total_price()
+        total = obj.get_total_price()
+        return f"{total:,} $" if total else '0 $'
     get_total_price.short_description = 'Total Price'
     
     def get_total_items(self, obj):
-        return obj.get_total_items()
+        return obj.get_total_items() or 0
     get_total_items.short_description = 'Number of Items'
 
 
@@ -36,5 +39,7 @@ class CartItemAdmin(admin.ModelAdmin):
     search_fields = ['product__title', 'cart__user__email']
     
     def get_total_price(self, obj):
-        return obj.get_total_price()
+        if obj and obj.price is not None:
+            return f"{obj.get_total_price():,} $"
+        return '0 $'
     get_total_price.short_description = 'Total Price'
