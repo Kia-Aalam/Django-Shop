@@ -29,21 +29,6 @@ class SigninView(FormView):
             messages.error(self.request, "The Username or Password is incorrect!")
             return self.form_invalid(form)
     
-# signup
-class SignupView(FormView):
-    template_name = "login/signup.html"
-    form_class = SignupForm
-    success_url = reverse_lazy("signup")
-    
-    def form_valid(self, form):
-        email = form.cleaned_data['email']
-        password = form.cleaned_data['password']
-
-        User = get_user_model()
-        user = User.objects.create_user(email=email, password=password)
-        login(self.request, user)
-        return redirect('home')
-    
 # register page
 class RegisterView(View):
     

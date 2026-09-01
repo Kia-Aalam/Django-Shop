@@ -3,11 +3,6 @@ from django.utils import timezone
 from datetime import timedelta
 
 from account.models import User
-
-class SignupModel(models.Model):
-    email = models.EmailField(verbose_name='ایمیل')
-    password = models.CharField(max_length=250, verbose_name='گذرواژه')
-    password_2 = models.CharField(max_length=250, verbose_name='تکرار گذرواژه')
     
 class Otp(models.Model):
     email = models.EmailField()
@@ -16,7 +11,7 @@ class Otp(models.Model):
     
     def is_expired(self):
         # OTP expires after 3 minutes
-        expiration_time = self.created_at + timedelta(minutes=3)
+        expiration_time = self.created_at + timedelta(minutes=2)
         return timezone.now() > expiration_time
     
     def __str__(self):
