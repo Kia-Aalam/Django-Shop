@@ -32,8 +32,8 @@ class SigninView(FormView):
 # register page
 class RegisterView(View):
     
-    @method_decorator(ratelimit(key='post:email', rate='2/5m', block=True, method='POST'))
-    @method_decorator(ratelimit(key='post:email', rate='1/10m', block=True, method='POST'))
+    @method_decorator(ratelimit(key='post:email', rate='2/5m', block=False, method='POST'))
+    @method_decorator(ratelimit(key='post:email', rate='1/10m', block=False, method='POST'))
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
     
@@ -42,6 +42,9 @@ class RegisterView(View):
         return render(request, "login/register.html", {'form':form})
     
     def post(self, request):
+        if getattr(request, 'limited', False):
+            messages.error(request, "Too many registration attempts! Please wait 5-10 minutes before trying again.")
+            return render(request, "login/register.html", {'form': RegisterForm()})
         form = RegisterForm(request.POST)
         if form.is_valid():
             randcode = randint(1000, 9999)
@@ -83,7 +86,16 @@ class OtpView(View):
                     
         return render(request, "login/otp.html", {'form': form})
 
+@ratelimit(key='get:email', rate='2/5m', block=False, method='GET')
+@ratelimit(key='get:email', rate='1/10m', block=False, method='GET')
 def send_again_otp(request):
+    if getattr(request, 'limited', False):
+        messages.error(request, "Too many attempts! Please wait 5-10 minutes before trying again.")
+        email = request.GET.get('email')
+        if email:
+            return redirect(reverse('otp') + f'?email={email}')
+        return redirect('register')
+    
     email = request.GET.get('email')
     if email:
         messages.error(request, "The code has been send")
@@ -93,6 +105,7 @@ def send_again_otp(request):
         print(randcode)
         return redirect(reverse('otp') + f'?email={email}')
     else:
+        messages.error(request, "Please Enter your Email")
         return redirect('register')
 
 # checkout page

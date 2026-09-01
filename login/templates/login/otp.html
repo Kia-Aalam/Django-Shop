@@ -51,6 +51,10 @@
                         <a href="{% url 'send_again_otp' %}?email={{ request.GET.email }}" class="control-group">
                             send code again
                             <p class="help-block text-danger"></p>
+                        </a> 
+                        <a href="{% url 'register' %}" class="control-group">
+                            change email
+                            <p class="help-block text-danger"></p>
                         </a>
                         <div>
                             <button class="btn btn-primary py-2 px-4" type="submit">Register</button>
