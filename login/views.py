@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, get_user_model
 from django.urls import reverse_lazy, reverse
+from django.contrib import messages
 from login.forms import SigninForm, SignupForm, OtpForm, RegisterForm, CheckoutForm
 from login.models import CheckoutModel, Otp
 from login.utils import send_otp_email
@@ -10,7 +11,6 @@ from django.contrib.auth.views import LogoutView
 from django.views import View
 
 from random import randint
-from pyexpat.errors import messages
 from django_ratelimit.decorators import ratelimit
 from django.utils.decorators import method_decorator
 
@@ -25,8 +25,9 @@ class SigninView(FormView):
         if user is not None:
             login(self.request, user)
             return redirect('home')
-        
-        return super().form_valid(form)
+        else:
+            messages.error(self.request, "The Username or Password is incorrect!")
+            return self.form_invalid(form)
     
 # signup
 class SignupView(FormView):
@@ -59,7 +60,7 @@ class RegisterView(View):
         form = RegisterForm(request.POST)
         if form.is_valid():
             randcode = randint(1000, 9999)
-            send_otp_email(form.cleaned_data['email'], randcode)
+            #send_otp_email(form.cleaned_data['email'], randcode)
             Otp.objects.create(email=form.cleaned_data['email'], code=randcode)
             print(randcode)
             return redirect(reverse('otp') + f'?email={form.cleaned_data['email']}')
@@ -92,7 +93,7 @@ class OtpView(View):
                     login(request, user)
                     return redirect('home')
             else:
-                form.add_error('code', 'Invalid or expired OTP')
+                messages.error(request, "Invalid or expired OTP!")
                 otp_record.delete()
                     
         return render(request, "login/otp.html", {'form': form})
@@ -100,8 +101,9 @@ class OtpView(View):
 def send_again_otp(request):
     email = request.GET.get('email')
     if email:
+        messages.error(request, "The code has been send")
         randcode = randint(1000, 9999)
-        send_otp_email(email, randcode)
+        #send_otp_email(email, randcode)
         Otp.objects.create(email=email, code=randcode)
         print(randcode)
         return redirect(reverse('otp') + f'?email={email}')

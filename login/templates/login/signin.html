@@ -19,6 +19,22 @@
     <!-- Signin Start -->
     <div class="container-fluid">
         <h2 class="section-title position-relative text-uppercase text-center mx-xl-5 mb-4"><span class="bg-secondary pr-3">Signin</span></h2>
+
+        <!-- Messages -->
+        {% if messages %}
+            {% for message in messages %}
+            <div id="customAlert" class="custom-alert-overlay">
+                <div class="custom-alert-box">
+                    <p class="custom-alert-title">Signin failed</p>
+                    <p class="custom-alert-text">{{ message }}</p>
+                    <div class="custom-alert-actions">
+                        <button class="custom-alert-btn" onclick="document.getElementById('customAlert').style.display='none'">OK</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+
         <div class=" px-xl-5">
             <div class=" mb-5 contact-us">
                 <div class="contact-form bg-light p-30">
