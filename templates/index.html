@@ -141,21 +141,12 @@
     <div class="container-fluid pt-5">
         <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Categories</span></h2>
         <div class="row px-xl-5 pb-3">
-            {% for product in products %}
-                <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                    <a class="text-decoration-none" href="">
-                        <div class="cat-item d-flex align-items-center mb-4">
-                            <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                                <img class="img-fluid" src="{{ product.image.url }}" alt="{{ product.title }}">
-                            </div>
-                            <div class="flex-fill pl-3">
-                                {% for type in product.type.all %}
-                                    <h6>{{ type.title }}</h6>
-                                {% endfor %}
-                                <small class="text-body">{{ product.quantity }} Products</small>
-                            </div>
-                        </div>
-                    </a>
+            {% for type in types %}
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                    <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
+                        <h1 class="fa fa-check text-primary m-0 mr-3"></h1>
+                        <h5 class="font-weight-semi-bold m-0">{{type.title}}</h5>
+                    </div>
                 </div>
             {% endfor %}
         </div>
