@@ -136,6 +136,12 @@ class CheckoutView(View):
             checkout = form.save(commit=False)
             checkout.user = request.user 
             checkout.save()
+            
+            # Cart
+            next_page = request.GET.get('next')
+            if next_page:
+                return redirect(next_page) 
+            
             return redirect('home') 
         
         return render(request, 'login/checkout.html', {'form': form})

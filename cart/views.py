@@ -7,17 +7,21 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 
 from .cart_module import CartManager
-
+from login.models import CheckoutModel
 
 class CartDetailView(View):
     def get(self, request):
         cart_manager = CartManager(request)
         cart_info = cart_manager.get_cart_info()
+        user = request.user
+        addresses = CheckoutModel.objects.filter(user=user)
         
         context = {
             'items': cart_info['items'],
             'total_price': cart_info['total_price'],
             'total_items': cart_info['total_items'],
+            'addresses': addresses,
+            'user': user,
         }
         return render(request, 'cart/cart_detail.html', context)
 
