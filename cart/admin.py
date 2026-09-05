@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Cart, CartItem
+from .models import Cart, CartItem, DiscountModel
 
 class CartItemInline(admin.TabularInline):
     model = CartItem
@@ -45,3 +45,10 @@ class CartItemAdmin(admin.ModelAdmin):
             return f"{obj.get_total_price():,} $"
         return '0 $'
     get_total_price.short_description = 'Total Price'
+    
+@admin.register(DiscountModel)
+class DiscountModelAdmin(admin.ModelAdmin):
+    list_display = ['product', 'name', 'quantity', 'expiration_date', 'is_active']
+    list_display_links = ['name'] 
+    list_filter = ['product']
+    search_fields = ['name', 'product__title']

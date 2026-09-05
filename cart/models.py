@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 from product.models import Product, Size, Color
 
 
@@ -46,3 +47,22 @@ class CartItem(models.Model):
         if self.price is None:
             return 0
         return self.price * self.quantity
+    
+class DiscountModel(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    quantity = models.PositiveIntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    expiration_date = models.DateTimeField()
+    
+    is_active = models.BooleanField(default=True)
+    @property
+    def is_active(self):
+        return self.quantity > 0 and self.expiration_date > timezone.now()
+    
+    '''@is_active.setter
+    def is_active(self, value):
+        pass'''  
+    
+    def __str__(self):
+        return f"{self.product.title} - {self.name}"
