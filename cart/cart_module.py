@@ -68,6 +68,8 @@ class CartManager:
 
     def clear(self):
         self.cart.items.all().delete()
+        self.cart.discount = None
+        self.cart.save()
 
     def get_items(self):
         return self.cart.items.select_related('product').all()

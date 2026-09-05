@@ -10,7 +10,7 @@ from cart.cart_module import CartManager
 from cart.models import DiscountModel
 from login.models import CheckoutModel
 
-class CartDetailView(View):
+class CartDetailView(LoginRequiredMixin, View):
     def get(self, request):
         cart_manager = CartManager(request)
         cart_info = cart_manager.get_cart_info()
@@ -30,7 +30,7 @@ class CartDetailView(View):
     
 
 
-class CartAddView(View):
+class CartAddView(LoginRequiredMixin, View):
     def post(self, request):
         product_id = request.POST.get('product_id')
         size_id = request.POST.get('size')
@@ -51,7 +51,7 @@ class CartAddView(View):
         return redirect('cart_detail')
 
 
-class CartRemoveView(View):
+class CartRemoveView(LoginRequiredMixin, View):
     def post(self, request, item_id):
         cart_manager = CartManager(request)
         cart_manager.remove(item_id)
@@ -59,7 +59,7 @@ class CartRemoveView(View):
         return redirect('cart_detail')
 
 
-class CartUpdateView(View):
+class CartUpdateView(LoginRequiredMixin, View):
     def post(self, request, item_id):
         quantity = int(request.POST.get('quantity', 0))
         cart_manager = CartManager(request)
@@ -83,7 +83,7 @@ class CartClearView(LoginRequiredMixin, View):
         messages.success(request, 'The shopping cart has been emptied')
         return redirect('cart_detail')
     
-class DiscountView(View):
+class DiscountView(LoginRequiredMixin, View):
     def get(self, request):
         discount_code = request.GET.get('discount_code')
         cart_manager = CartManager(request)
