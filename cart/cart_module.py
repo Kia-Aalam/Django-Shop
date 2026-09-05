@@ -79,11 +79,11 @@ class CartManager:
         return self.cart.get_total_items()
 
     def get_cart_info(self):
-        items = self.get_items()
         return {
-            'items': items,
-            'total_price': self.get_total_price(),
-            'total_items': self.get_total_items(),
+            'items': self.get_items(),
+            'total_price': self.cart.get_total_price(),
+            'discount_amount': self.cart.get_discount_amount(),
+            'final_price': self.cart.get_final_price(),
             'cart_id': self.cart.id
         }
         
@@ -91,11 +91,6 @@ class CartManager:
         try:
             discount = DiscountModel.objects.get(name=discount_code, is_active=True)
             self.cart.discount = discount
-            
-            for item in self.cart.items.all():
-                item.price -= int(item.price * (discount.percentage / 100))
-                item.save()
-                
             self.cart.save()
             
             discount.quantity -= 1

@@ -16,21 +16,29 @@ class CartItemInline(admin.TabularInline):
 
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'created_at', 'updated_at', 'get_total_price', 'get_total_items']
+    list_display = [
+        'user',
+        'get_total_price',
+        'get_final_price',
+        'created_at',
+        'updated_at',
+    ]
     list_display_links = ['user']
     list_filter = ['created_at']
     search_fields = ['user__email']
-    readonly_fields = ['created_at', 'updated_at']
+    readonly_fields = [
+        'created_at',
+        'updated_at',
+    ]
     inlines = [CartItemInline]
-    
+
     def get_total_price(self, obj):
-        total = obj.get_total_price()
-        return f"{total:,} $" if total else '0 $'
-    get_total_price.short_description = 'Total Price'
-    
-    def get_total_items(self, obj):
-        return obj.get_total_items() or 0
-    get_total_items.short_description = 'Number of Items'
+        return f"{obj.get_total_price():,} $"
+    get_total_price.short_description = "Total Price"
+
+    def get_final_price(self, obj):
+        return f"{obj.get_final_price():,} $"
+    get_final_price.short_description = "Final Price"
 
 
 @admin.register(CartItem)
@@ -46,9 +54,10 @@ class CartItemAdmin(admin.ModelAdmin):
         return '0 $'
     get_total_price.short_description = 'Total Price'
     
+    
 @admin.register(DiscountModel)
 class DiscountModelAdmin(admin.ModelAdmin):
-    list_display = ['product', 'name', 'quantity', 'expiration_date', 'is_active']
+    list_display = ['name', 'quantity', 'expiration_date', 'is_active']
     list_display_links = ['name'] 
-    list_filter = ['product', 'is_active', 'expiration_date']
-    search_fields = ['name', 'product__title']
+    list_filter = ['is_active', 'expiration_date']
+    search_fields = ['name', 'expiration_date']

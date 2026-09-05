@@ -99,11 +99,14 @@
                         {% endfor %}
                     </div>
                     <div class="pt-2">
-                        {% if discount.is_active %}
-                            <div class="d-flex justify-content-between mt-2">
-                                <h5 style="color: green;">${{original_price|floatformat:2}} <span style="color: red;">-{{discount.percentage}}%</span></h5>
-                            </div>
-                        {% endif %}
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5>Percent</h5>
+                            <h5 style="color: red;">%{{discount.percentage}}-</h5>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5>Discount amount</h5>
+                            <h5 style="color: red;">${{discount_amount}}-</h5>
+                        </div>
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Total</h5>
                             <h5>${{total_price|floatformat:2}}</h5>

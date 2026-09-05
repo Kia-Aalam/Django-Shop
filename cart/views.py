@@ -16,27 +16,17 @@ class CartDetailView(View):
         cart_info = cart_manager.get_cart_info()
         user = request.user
         addresses = CheckoutModel.objects.filter(user=user)
-        
-        # discount
-        discount = DiscountModel.objects.filter(is_active=True).first()
+        discount = DiscountModel.objects.filter().first
 
-        original_price = int(cart_info['total_price']) / (1 - int(discount.percentage / 100))
-        
         context = {
             'items': cart_info['items'],
-            'total_price': cart_info['total_price'],
-            'total_items': cart_info['total_items'],
+            'total_price': cart_info['final_price'],
+            'discount_amount': cart_info['discount_amount'],
             'addresses': addresses,
             'user': user,
-            'discount': discount,
-            'original_price':original_price,
+            'discount':discount
         }
         return render(request, 'cart/cart_detail.html', context)
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["discount"] = DiscountModel.objects.filter(is_active=True).first()  
-        return context
     
 
 
@@ -99,7 +89,7 @@ class DiscountView(View):
         cart_manager = CartManager(request)
         if discount_code:
             success, message = cart_manager.apply_discount(discount_code)
-            if success:
+            if success: 
                 messages.success(request, message)
             else:
                 messages.error(request, message)

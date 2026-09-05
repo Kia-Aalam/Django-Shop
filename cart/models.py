@@ -7,18 +7,44 @@ from product.models import Product, Size, Color
 User = get_user_model()
 
 class Cart(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='carts')
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='carts'
+    )
+
+    discount = models.ForeignKey(
+        'DiscountModel',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return f"Cart {self.id} - {self.user.email}"
-
     def get_total_price(self):
-        return sum(item.get_total_price() for item in self.items.all())
+        return sum(
+            item.get_total_price()
+            for item in self.items.all()
+        )
 
-    def get_total_items(self):
-        return sum(item.quantity for item in self.items.all())
+    def get_discount_amount(self):
+        if not self.discount:
+            return 0
+
+        total_price = self.get_total_price()
+        return (
+            total_price *
+            self.discount.percentage /
+            100
+        )
+
+    def get_final_price(self):
+        return (
+            self.get_total_price()
+            - self.get_discount_amount()
+        )
 
 
 class CartItem(models.Model):
@@ -49,7 +75,6 @@ class CartItem(models.Model):
         return self.price * self.quantity
     
 class DiscountModel(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, unique=True)
     percentage = models.PositiveIntegerField()
     quantity = models.PositiveIntegerField()
@@ -62,4 +87,4 @@ class DiscountModel(models.Model):
         super().save(*args, **kwargs)
     
     def __str__(self):
-        return f"{self.product.title} - {self.name}"
+        return f"{self.name} - {self.expiration_date}"
