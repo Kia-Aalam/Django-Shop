@@ -80,11 +80,11 @@
                 </table>
             </div>
             <div class="col-lg-4">
-                <form class="mb-30" action="">
+                <form class="mb-30" action="{% url 'cart_discount' %}" method="get">
                     <div class="input-group">
-                        <input type="text" class="form-control border-0 p-4" placeholder="Coupon Code">
+                        <input type="text" class="form-control border-0 p-4" placeholder="Coupon Code" name="discount_code">
                         <div class="input-group-append">
-                            <button class="btn btn-primary">Apply Coupon</button>
+                            <button class="btn btn-primary" type="submit">Apply</button>
                         </div>
                     </div>
                 </form>
@@ -99,9 +99,14 @@
                         {% endfor %}
                     </div>
                     <div class="pt-2">
+                        {% if discount.is_active %}
+                            <div class="d-flex justify-content-between mt-2">
+                                <h5 style="color: green;">${{original_price|floatformat:2}} <span style="color: red;">-{{discount.percentage}}%</span></h5>
+                            </div>
+                        {% endif %}
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Total</h5>
-                            <h5>${{total_price}}</h5>
+                            <h5>${{total_price|floatformat:2}}</h5>
                         </div>
                         <!-- Address -->
                         {% if addresses %}

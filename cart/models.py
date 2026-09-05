@@ -50,19 +50,16 @@ class CartItem(models.Model):
     
 class DiscountModel(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
+    percentage = models.PositiveIntegerField()
     quantity = models.PositiveIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     expiration_date = models.DateTimeField()
     
     is_active = models.BooleanField(default=True)
-    @property
-    def is_active(self):
-        return self.quantity > 0 and self.expiration_date > timezone.now()
-    
-    '''@is_active.setter
-    def is_active(self, value):
-        pass'''  
+    def save(self, *args, **kwargs):
+        self.is_active = self.quantity > 0 and self.expiration_date > timezone.now()
+        super().save(*args, **kwargs)
     
     def __str__(self):
         return f"{self.product.title} - {self.name}"

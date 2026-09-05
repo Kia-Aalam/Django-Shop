@@ -6,7 +6,8 @@ from django.views.decorators.http import require_POST
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 
-from .cart_module import CartManager
+from cart.cart_module import CartManager
+from cart.models import DiscountModel
 from login.models import CheckoutModel
 
 class CartDetailView(View):
@@ -16,14 +17,27 @@ class CartDetailView(View):
         user = request.user
         addresses = CheckoutModel.objects.filter(user=user)
         
+        # discount
+        discount = DiscountModel.objects.filter(is_active=True).first()
+
+        original_price = int(cart_info['total_price']) / (1 - int(discount.percentage / 100))
+        
         context = {
             'items': cart_info['items'],
             'total_price': cart_info['total_price'],
             'total_items': cart_info['total_items'],
             'addresses': addresses,
             'user': user,
+            'discount': discount,
+            'original_price':original_price,
         }
         return render(request, 'cart/cart_detail.html', context)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["discount"] = DiscountModel.objects.filter(is_active=True).first()  
+        return context
+    
 
 
 class CartAddView(View):
@@ -78,3 +92,16 @@ class CartClearView(LoginRequiredMixin, View):
         cart_manager.clear()
         messages.success(request, 'The shopping cart has been emptied')
         return redirect('cart_detail')
+    
+class DiscountView(View):
+    def get(self, request):
+        discount_code = request.GET.get('discount_code')
+        cart_manager = CartManager(request)
+        if discount_code:
+            success, message = cart_manager.apply_discount(discount_code)
+            if success:
+                messages.success(request, message)
+            else:
+                messages.error(request, message)
+        return redirect('cart_detail')
+    

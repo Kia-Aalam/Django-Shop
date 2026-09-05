@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from .models import Cart, CartItem
+from cart.models import Cart, CartItem, DiscountModel
 from product.models import Product, Size, Color 
 from django.utils import timezone
 
@@ -86,6 +86,24 @@ class CartManager:
             'total_items': self.get_total_items(),
             'cart_id': self.cart.id
         }
+        
+    def apply_discount(self, discount_code):
+        try:
+            discount = DiscountModel.objects.get(name=discount_code, is_active=True)
+            self.cart.discount = discount
+            
+            for item in self.cart.items.all():
+                item.price -= int(item.price * (discount.percentage / 100))
+                item.save()
+                
+            self.cart.save()
+            
+            discount.quantity -= 1
+            discount.save()
+            
+            return True, f'Discount code "{discount_code}" applied successfully.'
+        except DiscountModel.DoesNotExist:
+            return False, f'Discount code "{discount_code}" is invalid or inactive.'
 
     def merge_carts(self):
         session_cart_id = self.session.get('cart_id')

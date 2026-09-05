@@ -50,5 +50,5 @@ class CartItemAdmin(admin.ModelAdmin):
 class DiscountModelAdmin(admin.ModelAdmin):
     list_display = ['product', 'name', 'quantity', 'expiration_date', 'is_active']
     list_display_links = ['name'] 
-    list_filter = ['product']
+    list_filter = ['product', 'is_active', 'expiration_date']
     search_fields = ['name', 'product__title']
