@@ -51,7 +51,8 @@ class RegisterView(View):
             #send_otp_email(form.cleaned_data['email'], randcode)
             Otp.objects.create(email=form.cleaned_data['email'], code=randcode)
             print(randcode)
-            return redirect(reverse('otp') + f'?email={form.cleaned_data['email']}')
+            request.session['otp_email'] = form.cleaned_data['email'] 
+            return redirect('otp') 
             
         return render(request, "login/register.html", {'form':form})
 
@@ -66,11 +67,11 @@ class OtpView(View):
         form = OtpForm(request.POST)
         
         if form.is_valid():
+            email = request.session.get('otp_email') 
             otp_record = Otp.objects.filter(email=email, code=form.cleaned_data['code']).first()
             
             if otp_record and not otp_record.is_expired():
                 User = get_user_model()
-                otp_record.delete()
                 
                 if User.objects.filter(email=email).exists():
                     user = User.objects.get(email=email)
@@ -82,7 +83,8 @@ class OtpView(View):
                     return redirect('home')
             else:
                 messages.error(request, "Invalid or expired OTP!")
-                otp_record.delete()
+                
+            request.session.pop('otp_email', None) 
                     
         return render(request, "login/otp.html", {'form': form})
 
