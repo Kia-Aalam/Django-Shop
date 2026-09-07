@@ -68,7 +68,11 @@ class FilterProductsView(ListView):
 
     def get_queryset(self):
         queryset = Product.objects.all()
+        
         colors = self.request.GET.getlist('color')
+        Sizes = self.request.GET.getlist('size')
         if colors:
             queryset = queryset.filter(color__title__in=colors).distinct()
+        if Sizes:
+            queryset = queryset.filter(size__title__in=Sizes).distinct()
         return queryset
