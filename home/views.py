@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from home.forms import ContactForm
 from home.models import ContactModel
-from product.models import Product, Type
+from product.models import Product, Category
 from django.urls import reverse_lazy
 # class base view
 from django.views.generic import TemplateView, ListView
@@ -15,7 +15,7 @@ class IndexView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context["types"] = Type.objects.all()
+        context["categories"] = Category.objects.all()
         return context
 
 # contact page

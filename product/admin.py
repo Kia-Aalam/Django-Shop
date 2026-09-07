@@ -1,7 +1,7 @@
 from django.contrib import admin
-from product.models import Product, Type, Size, Color
+from product.models import Product, Category, Size, Color
 
-admin.site.register(Type)
+
 admin.site.register(Size)
 admin.site.register(Color)
 
@@ -9,4 +9,10 @@ admin.site.register(Color)
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'price']
-    list_display_links = ['title'] 
+    list_display_links = ['title']
+  
+    
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['id', 'title', 'parent']
+    list_display_links = ['title']
