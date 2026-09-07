@@ -8,6 +8,7 @@
             <div class="col-12">
                 <nav class="breadcrumb bg-light mb-30">
                     <a class="breadcrumb-item text-dark" href="{% url 'home' %}">Home</a>
+                    <a class="breadcrumb-item text-dark" href="{% url 'shop' %}">Shop</a>
                     <span class="breadcrumb-item active">Category Detail</span>
                 </nav>
             </div>
@@ -21,8 +22,7 @@
             <!-- Shop Product Start -->
             <div class="col-lg-9 col-md-8">
                 <div class="row pb-3">
-                    {% for product in products %}
-                
+                    {% for product in products %}            
                             <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
                                 <div class="product-item bg-light mb-4">
                                     <div class="product-img position-relative overflow-hidden">
@@ -42,8 +42,7 @@
                                         </div> 
                                     </div>
                                 </div>
-                            </div>
-                        
+                            </div>  
                     {% endfor %}
                 </div>
             </div>

@@ -60,3 +60,15 @@ class CategoryDetailView(ListView):
 
     def get_queryset(self):
         return Product.objects.filter(category__slug=self.kwargs['category_slug'])
+    
+class FilterProductsView(ListView):
+    template_name = "product/category_detail.html"
+    model = Product
+    context_object_name = "products"
+
+    def get_queryset(self):
+        queryset = Product.objects.all()
+        colors = self.request.GET.getlist('color')
+        if colors:
+            queryset = queryset.filter(color__title__in=colors).distinct()
+        return queryset

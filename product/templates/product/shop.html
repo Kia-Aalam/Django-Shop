@@ -19,9 +19,9 @@
     <!-- Shop Start -->
     <div class="container-fluid">
         <div class="row px-xl-5">
-            <!--  Shop Sidebar Start >
+            <!-- Shop Sidebar Start -->
             <div class="col-lg-3 col-md-4">
-                < Price Start >
+                <!-- Price Start -->
                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by price</span></h5>
                 <div class="bg-light p-4 mb-30">
                     <form>
@@ -57,47 +57,44 @@
                         </div>
                     </form>
                 </div>
-                < Price End >
+                <!-- Price End -->
                 
-                < Color Start >
+                <!-- Color Start -->
                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by color</span></h5>
                 <div class="bg-light p-4 mb-30">
-                    <form>
+                    <form method="get" action="{% url 'filter_products' %}">
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" checked id="color-all">
                             <label class="custom-control-label" for="price-all">All Color</label>
-                            <span class="badge border font-weight-normal">1000</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="color-1">
+                            <input type="checkbox" class="custom-control-input" id="color-1" name="color" value="Black">
                             <label class="custom-control-label" for="color-1">Black</label>
-                            <span class="badge border font-weight-normal">150</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="color-2">
+                            <input type="checkbox" class="custom-control-input" id="color-2" name="color" value="White">
                             <label class="custom-control-label" for="color-2">White</label>
-                            <span class="badge border font-weight-normal">295</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="color-3">
+                            <input type="checkbox" class="custom-control-input" id="color-3" name="color" value="Red">
                             <label class="custom-control-label" for="color-3">Red</label>
-                            <span class="badge border font-weight-normal">246</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="color-4">
+                            <input type="checkbox" class="custom-control-input" id="color-4" name="color" value="Blue">
                             <label class="custom-control-label" for="color-4">Blue</label>
-                            <span class="badge border font-weight-normal">145</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                            <input type="checkbox" class="custom-control-input" id="color-5">
+                            <input type="checkbox" class="custom-control-input" id="color-5" name="color" value="Green">
                             <label class="custom-control-label" for="color-5">Green</label>
-                            <span class="badge border font-weight-normal">168</span>
+                        </div>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">filter</button>
                         </div>
                     </form>
                 </div>
-                < Color End >
+                <!-- Color End -->
 
-                < Size Start >
+                <!-- Size Start -->
                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by size</span></h5>
                 <div class="bg-light p-4 mb-30">
                     <form>
@@ -133,9 +130,9 @@
                         </div>
                     </form>
                 </div>
-                < Size End >
+                <!-- Size End -->
             </div> 
-            < Shop Sidebar End > -->
+            <!-- Shop Sidebar End -->
 
 
             <!-- Shop Product Start -->
