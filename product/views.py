@@ -52,3 +52,11 @@ class SearchResultView(ListView):
         context = super().get_context_data(**kwargs)
         context['search_query'] = self.request.GET.get('q')
         return context
+    
+class CategoryDetailView(ListView):
+    template_name = "product/category_detail.html"
+    model = Product
+    context_object_name = "products"
+
+    def get_queryset(self):
+        return Product.objects.filter(category__slug=self.kwargs['category_slug'])

@@ -14,5 +14,5 @@ class ProductAdmin(admin.ModelAdmin):
     
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'parent']
+    list_display = ['id', 'title', 'parent', 'slug']
     list_display_links = ['title']

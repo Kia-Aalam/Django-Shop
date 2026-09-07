@@ -5,6 +5,17 @@ from django.utils.text import slugify
 class Category(models.Model):
     title = models.CharField(max_length=250)
     parent = models.ForeignKey('self', blank=True, null=True, on_delete=models.CASCADE, related_name='children')
+    
+    slug = models.SlugField(blank=True, null=True, unique=True)
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            original_slug = slugify(self.title)
+            self.slug = original_slug
+            counter = 1
+            while Product.objects.filter(slug=self.slug).exists():
+                self.slug = f'{original_slug}-{counter}'
+                counter += 1
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
